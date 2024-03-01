@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Project Index";
+}
+@model List<GetProjectVM>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-header">
+            <h3 class="card-title">Proje Listesi</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Proje Adı</th>
+                        <th>Proje Açıklaması</th>
+                        <th>Proje Sorumlusu</th>
+                        <th>Proje Başlama Tarihi</th>
+                        <th>Eklenme Tarihi</th>
+                        <th>Güncellenme Tarihi</th>
+                        <th>Durum</th>
+                        <th>Güncelle</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var Project in Model)
+                    {
+                        <tr>
+                            <td>@Project.Id</td>
+                            <td>@Project.ProjectName</td>
+                            <td>@Project.ProjectDescription</td>
+                            <td>@Project.ProjectManager</td>
+                            <td>@Project.StartingDate</td>
+                            <td>@Project.CreatedDate</td>
+                            @if (Project.UpdatedDate is not null)
+                            {
+                                <td>@Project.UpdatedDate</td>
+                            }
+                            else
+                            {
+                                <td> - </td>
+                            }
+
+                            @if (Project.Status == ApplicationCore.Entities.PersonEntities.Abstract.Status.Active)
+                            {
+                                <td>Aktif</td>
+                            }
+                            else
+                            {
+                                <td>Güncellenmiş</td>
+                            }
+                            <td>
+                                <a asp-action="UpdateProject" asp-route-id="@Project.Id" class="btn btn-outline-primary">Güncelle</a>
+                            </td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@Project.Id">
+                                    Sil
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal-@Project.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Silme Uyarısı</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Silmek istediğinize emin misiniz?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                <a asp-action="DeleteProject" asp-route-id="@Project.Id" class="btn btn-outline-danger">Evet</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-outline-dark d-block" asp-action="CreateProject">Yeni Proje Ekle</a>
+        </div>
+    </div>
+</div>

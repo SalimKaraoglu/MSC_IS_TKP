@@ -1,0 +1,28 @@
+﻿@if (!User.Identity.IsAuthenticated)
+{
+    <ul class="navbar-nav ms-auto">
+        <li class="nav-item mx-2">
+            <a class="nav-link btn btn-outline-primary" asp-controller="Account" asp-action="Register">Kayıt ol</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link btn btn-outline-secondary" asp-controller="Account" asp-action="LogIn">Giriş Yap</a>
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="navbar-nav ms-auto">
+        @if (User.IsInRole("admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin Paneli</a>
+            </li>
+        }
+        <li class="nav-item mx-2">
+            <a class="nav-link btn btn-outline-dark" asp-controller="Account" asp-action="EditUser">Bilgileri Düzenle</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link btn btn-outline-danger" asp-controller="Account" asp-action="LogOut">Çıkış Yap</a>
+        </li>
+    </ul>
+}

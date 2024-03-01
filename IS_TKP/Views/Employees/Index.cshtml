@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Employee Index";
+}
+@model List<GetEmployeeVM>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-header">
+            <h3 class="card-title">Personel Listesi</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>İsim</th>
+                        <th>Soyisim</th>
+                        <th>E - Mail</th>
+                        <th>İşe Giriş Tarihi</th>
+                        <th>Eklenme Tarihi</th>
+                        <th>Güncellenme Tarihi</th>
+                        <th>Durum</th>
+                        <th>Güncelle</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model)
+                    {
+                        <tr>
+                            <td>@employee.Id</td>
+                            <td>@employee.FirstName</td>
+                            <td>@employee.LastName</td>
+                            <td>@employee.Email</td>
+                            <td>@employee.HireDate.ToShortDateString()</td>
+                            <td>@employee.CreatedDate</td>
+                            @if (employee.UpdatedDate is not null)
+                            {
+                                <td>@employee.UpdatedDate</td>
+                            }
+                            else
+                            {
+                                <td> - </td>
+                            }
+                            @if (employee.Status == ApplicationCore.Entities.PersonEntities.Abstract.Status.Active)
+                            {
+                                <td>Aktif</td>
+                            }
+                            else if (employee.Status == ApplicationCore.Entities.PersonEntities.Abstract.Status.Modified)
+                            {
+                                <td>Güncellenmiş</td>
+                            }
+                            <td>
+                                <a asp-action="UpdateEmployee" asp-route-id="@employee.Id" class="btn btn-outline-primary">Güncelle</a>
+                            </td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@employee.Id">
+                                    Sil
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal-@employee.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Silme Uyarısı</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Silmek istediğinize emin misiniz?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                <a asp-action="DeleteEmployee" asp-route-id="@employee.Id" class="btn btn-outline-danger">Evet</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-outline-dark d-block" asp-action="CreateEmployee">Yeni Personel Ekle</a>
+        </div>
+    </div>
+</div>

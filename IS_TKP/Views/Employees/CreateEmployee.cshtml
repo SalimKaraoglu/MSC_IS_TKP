@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Create Employee";
+}
+@model CreateEmployeeDTO
+
+<div class="row">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Yeni Personel Ekle</h3>
+        </div>
+        <form asp-action="CreateEmployee">
+            <div class="card-body">
+                <div>
+                    <label asp-for="FirstName" class="form-label"></label>
+                    <input asp-for="FirstName" class="form-control"/>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="LastName" class="form-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="HireDate" class="form-label"></label>
+                    <input type="date" asp-for="HireDate" class="form-control" />
+                    <span asp-validation-for="HireDate" class="text-danger"></span>
+                </div> 
+                <div>
+                    <label asp-for="DepartmentId" class="form-label"></label>
+                   <select asp-for="DepartmentId" class="form-control">
+                       <option disabled selected value="0">Lütfen Bir Departman Seçiniz</option>
+                       @foreach (var department in Model.Departments)
+                        {
+                            <option value="@department.Id">@department.DepartmentName (@department.DepartmentDescription) (Personel Sayısı: @department.DepartmentSize)</option>
+                        }
+                   </select>
+                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between" style="height:50px;">
+                    <a asp-action="Index" class="btn btn-outline-dark">Geri Dön</a>
+                    <button type="submit" class="btn btn-outline-success">Kaydet</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
